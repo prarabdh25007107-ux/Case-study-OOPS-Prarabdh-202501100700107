@@ -71,7 +71,7 @@ def process_payment(payment, amount):
 
 
 # Objects
-a = CreditCardPayment("Pratyush")
+a = CreditCardPayment("Prarabdh")
 b = UPIPayment("Rahul")
 c = PayPalPayment("Aman")
 d = WalletPayment("Riya", 2000)
