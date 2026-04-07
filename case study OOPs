@@ -1,0 +1,83 @@
+from abc import ABC, abstractmethod
+
+# Abstract class
+class Payment(ABC):
+    def __init__(self, name):
+        self.name = name
+
+    @abstractmethod
+    def pay(self, amount):
+        pass
+
+    def generate_receipt(self, amount, final_amount):
+        print("User Name:", self.name)
+        print("Original Amount:", amount)
+        print("Final Amount:", final_amount)
+        print("----------------------")
+
+
+# Credit Card Payment
+class CreditCardPayment(Payment):
+    def pay(self, amount):
+        fee = amount * 0.02
+        gst = fee * 0.18
+        final_amount = amount + fee + gst
+
+        print("\nCredit Card Payment")
+        self.generate_receipt(amount, final_amount)
+
+
+# UPI Payment
+class UPIPayment(Payment):
+    def pay(self, amount):
+        if amount > 1000:
+            final_amount = amount - 50
+        else:
+            final_amount = amount
+
+        print("\nUPI Payment")
+        self.generate_receipt(amount, final_amount)
+
+
+# PayPal Payment
+class PayPalPayment(Payment):
+    def pay(self, amount):
+        fee = amount * 0.03
+        final_amount = amount + fee + 20
+
+        print("\nPayPal Payment")
+        self.generate_receipt(amount, final_amount)
+
+
+# Wallet Payment
+class WalletPayment(Payment):
+    def __init__(self, name, balance):
+        super().__init__(name)
+        self.balance = balance
+
+    def pay(self, amount):
+        print("\nWallet Payment")
+        if amount > self.balance:
+            print("Payment Failed: Not enough balance")
+        else:
+            self.balance = self.balance - amount
+            self.generate_receipt(amount, amount)
+            print("Remaining Balance:", self.balance)
+
+
+# Polymorphism function
+def process_payment(payment, amount):
+    payment.pay(amount)
+
+
+# Objects
+a = CreditCardPayment("Pratyush")
+b = UPIPayment("Rahul")
+c = PayPalPayment("Aman")
+d = WalletPayment("Riya", 2000)
+
+# Transactions
+process_payment(a, 5000)
+process_payment(b, 1500)
+process_payment(c, 3000)
+process_payment(d, 1000)
